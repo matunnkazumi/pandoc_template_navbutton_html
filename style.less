@@ -1,0 +1,287 @@
+// reset
+body,section,H1,H2,H3,H4,H5,H6 {
+    margin: 0px;
+    padding: 0px;
+}
+
+// main
+@elevation-1-shadow: 1px 1px 1px 2px rgba(0,0,0,0.26);
+@elevation-2-shadow: 1px 1px 1px 3px rgba(0,0,0,0.26);
+@elevation-12-shadow: 8px 8px 12px rgba(0,0,0,0.26);
+@elevation-16-shadow: 0 0 24px rgba(0,0,0,0.26);
+
+@section-padding-left-outer: 30px;
+@section-padding-left-inner: 20px;
+@section-h-padding-top-inner: 10px;
+@section-h-padding-bottom-inner: 0px;
+
+@primary: black;
+@primary-variant: lightgray;
+@secondary: black;
+@secondary-variant: lightgray;
+@background: white;
+@surface: white;
+@error: red;
+@on-primary: white;
+@on-secondary: white;
+@on-background: black;
+@on-surface: black;
+@on-error: white;
+
+.ripple(@baseColor) {
+    background-color: @baseColor;
+    background-position: center;
+
+    @hoverColor: if((lightness(@baseColor) > 50),
+		    darken(@baseColor, 10%),
+		    lighten(@baseColor, 20%)
+		   );
+    @actionColor: if((lightness(@baseColor) > 50),
+		     darken(@baseColor, 30%),
+		     lighten(@baseColor, 40%)
+		    );
+    
+    &:hover {
+	background-image: radial-gradient(circle, transparent 1%, @hoverColor 1%);
+	background-color: @hoverColor;
+	background-size: 15000% 15000%;
+	transition: background 0.5s;
+    }
+    &:active {
+	background-color: @actionColor;
+	background-size: 100% 100%;
+	transition: background 0s;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+    font-weight: 200;
+    background-color: @background;
+    color: @on-background;
+}
+
+section {
+    background-color: @surface;
+    color: @on-surface
+}
+
+section.level1 H1{
+    padding:10px;
+    background-color: @primary;
+    color: @on-primary;
+    box-shadow: @elevation-2-shadow;
+}
+    
+section.level2 {
+    padding-left: @section-padding-left-outer;
+    padding-top: 1px;
+    padding-bottom: 10px;
+    padding-right:30px;
+    margin-left:0px;
+    margin-right:0px;
+    box-shadow: @elevation-1-shadow;
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+    H2 {
+	padding-top:20px;
+	padding-bottom: 10px;
+	margin-left: -10px;
+    }
+}
+section.level3 {
+    padding-left: @section-padding-left-outer;
+    padding-top: 1px;
+    padding-bottom: 10px;
+    padding-right:20px;
+
+    margin-bottom: 10px;
+    box-shadow: @elevation-1-shadow;
+
+    H3 {
+	padding-top:20px;
+	padding-bottom: 10px;
+	margin-left: -10px;
+    }
+}
+section.level4 {
+    padding-left: @section-padding-left-inner;
+
+    H4 {
+	padding-top: @section-h-padding-top-inner;
+	padding-bottom: @section-h-padding-bottom-inner;
+	margin-left: -10px;
+    }
+}
+section.level5 {
+    padding-left: @section-padding-left-inner;
+
+    H5 {
+	padding-top: @section-h-padding-top-inner;
+	padding-bottom: @section-h-padding-bottom-inner;
+	margin-left: -10px;
+    }
+}
+section.level6 {
+    padding-left: @section-padding-left-inner;
+    H6 {
+	padding-top: @section-h-padding-top-inner;
+	padding-bottom: @section-h-padding-bottom-inner;
+	margin-left: -10px;
+    }
+}
+table {
+    padding: 10px;
+    border-spacing: 0;
+    box-shadow: @elevation-1-shadow;
+}
+tr {
+    td {
+	padding-left: 5px;
+	padding-right: 5px;
+    }
+
+    th {
+	border-bottom: 1px solid @primary;
+    }
+    th:nth-child(2) {
+	border-left: 1px solid @primary;
+	border-right: 1px solid @primary;
+    }
+    
+    td:first-child {
+	white-space: nowrap;
+    }
+    td:nth-child(2) {
+	white-space: nowrap;
+	border-left: 1px solid @primary;
+	border-right: 1px solid @primary;
+    }
+    td:nth-child(3) {
+	border-bottom: 1px solid @primary-variant;
+    }
+}
+tr:last-child {
+    td:nth-child(3) {
+	border-bottom: none;
+    }
+}
+nav#TOC {
+    z-index: 1;
+    background-color: @surface;
+    position: fixed;
+    width: 0px;
+    right: 30px;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: @elevation-16-shadow;
+
+    transition: width 0.8s 0s ease;
+    
+    ul {
+	padding: 0px;
+	margin: 0px;
+    }
+    li {
+	display:block;
+	padding: 0px;
+	list-style: none;
+	a {
+	    color: @on-surface;
+	    display:block;
+	    white-space: nowrap;
+	    text-decoration: none;
+	    padding-top: 5px;
+	    padding-bottom: 10px;
+	    padding-left:10px;
+	    border-radius: 5px;
+	    margin: 5px;
+
+	    .ripple(@surface);
+	}
+	li {
+	    a {
+		padding-left:20px;
+	    }
+	    li {
+		a {
+		    padding-left:40px;
+		}
+	    }
+	}
+    }
+}
+#TOC-status {
+    display:none;
+    
+    &~label#TOC-button-display {
+	position: fixed;
+	display: block;
+	z-index: 2;
+	right: 0px;
+
+	mergin: 0px;
+	height:100%;
+	color: @on-primary;
+	background-color: @primary;
+	border-left: 1px @surface solid;
+	box-shadow: @elevation-16-shadow;
+	width: 30px;
+	cursor: pointer;
+	
+	svg {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    margin: auto;
+	    fill: currentColor;
+	}
+
+	.ripple(@primary);
+    }
+
+    &:checked {
+	&~nav#TOC {
+	    width: 430px;
+	    overflow-y: scroll;
+	}
+    }
+}
+#to-top {
+    position: fixed;
+    right: 50px;
+    bottom: 20px;
+    box-shadow: @elevation-12-shadow;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+
+    a {
+	color: @on-secondary;
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height:50px;
+	text-align:center;
+	text-decoration: none;
+	border-radius: 50%;
+
+	svg {
+	    vertical-align: middle;
+	    fill: currentColor;
+	}
+
+	.ripple(@secondary);
+    }
+}
+footer {
+    margin-top: 20px;
+    padding: 5px;
+    font-style: italic;
+    font-size: small;
+}
